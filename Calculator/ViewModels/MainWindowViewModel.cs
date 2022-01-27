@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+
 namespace Calculator.ViewModels
 {
     class MainWindowViewModel : INotifyPropertyChanged
@@ -17,19 +18,61 @@ namespace Calculator.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
-        private double var;
-        public double Var
+        private string exp;
+        public string Exp
         {
-            get => var;
+            get => exp;
             set
             {
-                var = value;
+                exp = value;
+            }
+        }
+        private List<double> varList;
+        public List<double> VarList
+        {
+            get => varList;
+            set
+            {
+                varList = value;
+            }
+        }
+        
+        private List<char> opList;
+        public List<char> OpList
+        {
+            get => opList;
+            set
+            {
+                opList = value;
+            }
+        }
+
+        private double result;
+        public double Result
+        {
+            get => result;
+            set
+            {
+                result = value;
             }
         }
         public ICommand AddCommand {get;}
         private void OnAddCommandExecute(object p)
         {
             
+        }
+        private bool CanAddCommandExecuted(object p)
+        {
+            if (Exp!="")
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        public MainWindowViewModel()
+        {
+            AddCommand = new RelayCommand(OnAddCommandExecute, CanAddCommandExecuted);
         }
 
     }

@@ -68,21 +68,20 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
-                            <Path  Fill="#FFC58484" Opacity="0.4">
+                        <Grid >
+                            <Path  Fill="#FFC58484" Opacity="0.4" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Path.Data>
                                     <CombinedGeometry GeometryCombineMode="Exclude">
                                         <CombinedGeometry.Geometry1>
-                                            <EllipseGeometry RadiusX="10" RadiusY="10"/>
+                                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="10,10"/>
                                         </CombinedGeometry.Geometry1>
                                         <CombinedGeometry.Geometry2>
-                                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="5,0">
+                                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="15,10">
                                             </EllipseGeometry>
                                         </CombinedGeometry.Geometry2>
                                     </CombinedGeometry>
                                 </Path.Data>
                             </Path>
-                            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"></ContentPresenter>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -109,13 +108,15 @@
         
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Style="{StaticResource buttonBlack}"/>
-        <TextBox Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0"/>
-        <UniformGrid Grid.Row="2" Rows="5" Columns="4" >
+        <TextBox Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0"/>
+        <TextBox Grid.Row="2" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0"/>
+        <UniformGrid Grid.Row="3" Rows="5" Columns="4" >
             <Button Content="CE" Style="{StaticResource button3}"/>
             <Button Content="C" Style="{StaticResource button3}"/>
             <Button Content="←" Style="{StaticResource button3}"/>
