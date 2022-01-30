@@ -11,6 +11,9 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        
+    </Window.InputBindings>
     <Window.Resources>
         <Style TargetType="Button" x:Key="button1">
             <Setter Property="Foreground" Value="White"/>
@@ -67,6 +70,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Command" Value="{Binding InsertCommand}"/>
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Style>
 
         <Style TargetType="Button" x:Key="buttonBlack">
@@ -120,28 +124,28 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Style="{StaticResource buttonBlack}"/>
-        <TextBox Name="InputTextBox" Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0" Text="{Binding Exp, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
-        <TextBox Name="ResultTextBox" Grid.Row="2" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0" Text="{Binding Result, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Name="InputTextBox" Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5"  Text="{Binding Exp, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Name="ResultTextBox" Grid.Row="2" Background="{x:Null}" Margin="5" Padding="5" Text="{Binding Result, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
         <UniformGrid Grid.Row="3" Rows="5" Columns="4" >
             <Button Name="ButtonBracketOpen"  Content="(" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.BracketOpen}"/>
             <Button Name="ButtonBracketClose" Content=")" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.BracketClouse}"/>
             <Button Name="ButtonClean" Content="С" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Clear}" />
-            <Button Name="ButtonBackspace" Content="←" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Backspace}"/>
-            <Button Content="7" Style="{StaticResource button1}" />
+            <Button Name="ButtonBackspace" Content="⌫" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Backspace}"/>
+            <Button Content="7" Style="{StaticResource button1}"/>
             <Button Content="8" Style="{StaticResource button1}"/>
             <Button Content="9" Style="{StaticResource button1}"/>
-            <Button Name="ButtonDivide" Content="÷" Style="{StaticResource button3}"/>
+            <Button Content="/" Style="{StaticResource button3}"/>
             <Button Content="4" Style="{StaticResource button1}"/>
             <Button Content="5" Style="{StaticResource button1}"/>
             <Button Content="6" Style="{StaticResource button1}"/>
-            <Button Content="×" Style="{StaticResource button3}"/>
+            <Button Content="*" Style="{StaticResource button3}"/>
             <Button Content="1" Style="{StaticResource button1}"/>
             <Button Content="2" Style="{StaticResource button1}"/>
             <Button Content="3" Style="{StaticResource button1}"/>
             <Button Content="-" Style="{StaticResource button3}"/>
-            <Button Content="," Style="{StaticResource button1}"/>
+            <Button Content="," Style="{StaticResource button1}" CommandParameter="."/>
             <Button Content="0" Style="{StaticResource button1}"/>
-            <Button Content="=" Style="{StaticResource button2}"/>
+            <Button Content="=" Style="{StaticResource button2}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Equal}"/>
             <Button Content="+" Style="{StaticResource button3}"/>
         </UniformGrid>
     </Grid>

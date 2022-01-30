@@ -40,6 +40,8 @@ namespace Calculator.ViewModels
                 result = value;
             }
         }
+
+
         public ICommand InsertCommand => new RelayCommand(o => Insert((string)o));
         public void Insert(string digit)
         {
@@ -55,21 +57,20 @@ namespace Calculator.ViewModels
             OnPropertyChanged(nameof(Result));
         }
 
-        public ICommand AddCommand {get;}
+        public ICommand AddCommand { get; }
         private void OnAddCommandExecute(object p)
         {
-
+            Result = model.Result;
         }
 
         private bool CanAddCommandExecuted(object p)
         {
-            if (Exp!="")
-            {
+            if (model.BracketCheck())
                 return true;
-            }
             else
                 return false;
         }
+
         public MainWindowViewModel()
         {
             AddCommand = new RelayCommand(OnAddCommandExecute, CanAddCommandExecuted);

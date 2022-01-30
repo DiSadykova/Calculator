@@ -32,6 +32,8 @@ namespace Calculator.Models
         private const string OpenBracketSign = "(";
         private const string EncloseBracketSign = ")";
 
+        private int closeBacketCont = 0;
+        private int openBacketCont = 0;
         private readonly Stack<string> encloseBracketStack;
 
         public CalculatorModel()
@@ -50,11 +52,28 @@ namespace Calculator.Models
         private void Backspace()
         {
             if (string.IsNullOrEmpty(Exp)) return;
-            if (Regex.IsMatch(Exp, $@"\{EncloseBracketSign}&"))
-                encloseBracketStack.Push(EncloseBracketSign);
-            else if (Regex.IsMatch(Exp, $@"\{OpenBracketSign}"))
-                encloseBracketStack.Pop();
 
+            if (Regex.IsMatch(Exp, $@"\{EncloseBracketSign}&"))
+            {
+                if (closeBacketCont <= openBacketCont)
+                {
+                    encloseBracketStack.Push(EncloseBracketSign);
+                    closeBacketCont--;
+                }
+                else
+                    closeBacketCont--;
+            }
+
+
+            if (Regex.IsMatch(Exp, $@"\{OpenBracketSign}"))
+            {
+                if (closeBacketCont <= openBacketCont)
+                {
+
+                    encloseBracketStack.Pop();
+                    openBacketCont--;
+                }
+            }
             Exp = Exp.Remove(Exp.Length - 1, 1);
             Result = CalculateExpression();
         }
@@ -62,20 +81,34 @@ namespace Calculator.Models
 
         public void Insert(string element)
         {
-            if (Regex.IsMatch(element, @"[+\-*/,]"))
-                Exp += string.IsNullOrEmpty(Exp) || Regex.IsMatch(Exp, @"[+\-*/,]$") ? string.Empty : element;
-            else
+            if ((element != "/") || (element != "*") || (element != "+") || (element != "-") || (element != "(") || (element != ")"))
+            {
                 Exp += element;
-
-            Result = Exp;
+                Result = CalculateExpression();
+            }
+            Result = CalculateExpression();
         }
 
-        private void AddBracketOpen()
+        private void BracketOpen()
         {
-
+            Exp += OpenBracketSign;
+            encloseBracketStack.Push(EncloseBracketSign);
+            openBacketCont++;
+            Result = string.Empty;
         }
-        private void AddBracketClose()
+        private void BracketClose()
         {
+            Exp += EncloseBracketSign;
+            if (encloseBracketStack.Count > 0)
+            {
+                encloseBracketStack.Pop();
+                closeBacketCont++;
+                openBacketCont--;
+                Result = CalculateExpression();
+            }
+            else
+                Result = "некорректно расставлены скобки";
+
 
         }
 
@@ -90,10 +123,10 @@ namespace Calculator.Models
                     Clear();
                     break;
                 case Operations.BracketOpen:
-                    AddBracketOpen();
+                    BracketOpen();
                     break;
                 case Operations.BracketClouse:
-                    AddBracketClose();
+                    BracketClose();
                     break;
                 case Operations.Equal:
                     Equal();
@@ -109,52 +142,68 @@ namespace Calculator.Models
             return expression.calculate().ToString(CultureInfo.InvariantCulture);
         }
 
+        public bool BracketCheck()
+        {
+            char[] array = Exp.ToCharArray();
+            List<char> charList = new List<char>();
+            charList.AddRange(array);
+            Stack<char> que = new Stack<char>();
+            for (int i = 0; i < charList.Count; i++)
+            {
+                if (charList[i] == '(')
+                    que.Push(')');
+                if (charList[i] == ')')
+                    que.Pop();
+            }
+            if (que.Count == 0)
+                return true;
+            else
+                return false;
 
+        }
+        public bool OperationCheck()
+        {
+            char[] array = Exp.ToCharArray();
+            List<char> charList = new List<char>();
+            charList.AddRange(array);
+            for (int i = 1; i < charList.Count; i++)
+            {
+                switch (charList[i])
+                {
+                    case '(':
+                        if (charList[i - 1] == '+' || charList[i - 1] == '-' || charList[i - 1] == '*' || charList[i - 1] == '/' || charList[i - 1] == '(')
+                            return true;
+                        else
+                            return false;
+                    case '*':
+                        if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(')
+                            return true;
+                        else
+                            return false;
+                    case '/':
+                        if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(')
+                            return true;
+                        else
+                            return false;
+                    case '+':
+                        if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(')
+                            return true;
+                        else
+                            return false;
+                    case '-':
+                        if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/')
+                            return true;
+                        else
+                            return false;
+                    case '.':
+                        if (charList[i - 1] != '.' || charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(' || charList[i - 1] != ')')
+                            return true;
+                        else
+                            return false;        
+                }
 
+            }
+            
+        }
     }
-
-
-    //internal class Calc
-    //{
-    //    public static double Calcul(string exp)
-    //    {
-    //        char[] array = exp.ToCharArray();
-    //        List<char> charList = new List<char>();
-    //        charList.AddRange(array);
-    //        List<string> priority1 = new List<string>();
-    //        Stack<int> g = new Stack<int>();
-    //        string priorityStr ="";
-
-
-    //        for (int i = 0; i < charList.Count; i++)
-    //        {
-    //            switch (charList[i])
-    //            {
-    //                case '(':
-
-    //                    g.Push(i);
-    //                    break;
-    //                case ')':
-    //                    if (g.Count!=0)
-    //                    {
-    //                        for (int j = g.Pop(); j < i-1; j++)
-    //                        {
-    //                            priorityStr+=charList[j];
-    //                        }
-    //                        priority1.Add(priorityStr);
-    //                        break;
-    //                    }
-    //                    else
-
-
-
-    //            }
-    //        }
-    //        {
-    //            double result=0;
-    //            return result;
-    //        }
-    //    }
-
-    //}
 }
