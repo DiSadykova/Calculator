@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         xmlns:vm="clr-namespace:Calculator.ViewModels"
+        xmlns:models="clr-namespace:Calculator.Models"
         mc:Ignorable="d"
         Title="MainWindow" Height="475" Width="250" MinHeight="400" MinWidth="220">
     <Window.DataContext>
@@ -27,6 +28,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Command" Value="{Binding InsertCommand}"/>
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Style>
         <Style TargetType="Button" x:Key="button2">
             <Setter Property="Foreground" Value="White"/>
@@ -44,6 +47,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Command" Value="{Binding InsertCommand}"/>
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Style>
         <Style TargetType="Button" x:Key="button3">
             <Setter Property="Foreground" Value="White"/>
@@ -61,6 +66,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Command" Value="{Binding InsertCommand}"/>
         </Style>
 
         <Style TargetType="Button" x:Key="buttonBlack">
@@ -114,29 +120,29 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Style="{StaticResource buttonBlack}"/>
-        <TextBox Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0"/>
-        <TextBox Grid.Row="2" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0"/>
+        <TextBox Name="InputTextBox" Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0" Text="{Binding Exp, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
+        <TextBox Name="ResultTextBox" Grid.Row="2" Background="{x:Null}" Margin="5" Padding="5" BorderThickness="0" Text="{Binding Result, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
         <UniformGrid Grid.Row="3" Rows="5" Columns="4" >
-            <Button Content="CE" Style="{StaticResource button3}"/>
-            <Button Content="C" Style="{StaticResource button3}"/>
-            <Button Content="←" Style="{StaticResource button3}"/>
-            <Button Content="÷" Style="{StaticResource button3}"/>
-            <Button Content="7" Style="{StaticResource button1}"/>
+            <Button Name="ButtonBracketOpen"  Content="(" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.BracketOpen}"/>
+            <Button Name="ButtonBracketClose" Content=")" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.BracketClouse}"/>
+            <Button Name="ButtonClean" Content="С" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Clear}" />
+            <Button Name="ButtonBackspace" Content="←" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Backspace}"/>
+            <Button Content="7" Style="{StaticResource button1}" />
             <Button Content="8" Style="{StaticResource button1}"/>
             <Button Content="9" Style="{StaticResource button1}"/>
-            <Button Content="×" Style="{StaticResource button3}"/>
+            <Button Name="ButtonDivide" Content="÷" Style="{StaticResource button3}"/>
             <Button Content="4" Style="{StaticResource button1}"/>
             <Button Content="5" Style="{StaticResource button1}"/>
             <Button Content="6" Style="{StaticResource button1}"/>
-            <Button Content="−" Style="{StaticResource button3}"/>
+            <Button Content="×" Style="{StaticResource button3}"/>
             <Button Content="1" Style="{StaticResource button1}"/>
             <Button Content="2" Style="{StaticResource button1}"/>
             <Button Content="3" Style="{StaticResource button1}"/>
-            <Button Content="+" Style="{StaticResource button3}"/>
-            <Button Content="+/-" Style="{StaticResource button1}"/>
-            <Button Content="0" Style="{StaticResource button1}"/>
+            <Button Content="-" Style="{StaticResource button3}"/>
             <Button Content="," Style="{StaticResource button1}"/>
+            <Button Content="0" Style="{StaticResource button1}"/>
             <Button Content="=" Style="{StaticResource button2}"/>
+            <Button Content="+" Style="{StaticResource button3}"/>
         </UniformGrid>
     </Grid>
 </Window>
