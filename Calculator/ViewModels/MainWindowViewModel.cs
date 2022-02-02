@@ -60,12 +60,17 @@ namespace Calculator.ViewModels
         public ICommand AddCommand { get; }
         private void OnAddCommandExecute(object p)
         {
-            Result = model.Result;
+            
         }
 
         private bool CanAddCommandExecuted(object p)
         {
             if (model.BracketCheck())
+                return true;
+            else
+                return false;
+
+            if (model.OperationCheck())
                 return true;
             else
                 return false;

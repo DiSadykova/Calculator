@@ -138,8 +138,9 @@ namespace Calculator.Models
         {
             if (string.IsNullOrEmpty(Exp) || !Regex.IsMatch(Exp.Last().ToString(), @"(\d|\))") || encloseBracketStack.Any())
                 return string.Empty;
-            Expression expression = new Expression(Exp);
-            return expression.calculate().ToString(CultureInfo.InvariantCulture);
+   
+                Expression expression = new Expression(Exp);
+                return expression.calculate().ToString(CultureInfo.InvariantCulture);
         }
 
         public bool BracketCheck()
@@ -166,44 +167,67 @@ namespace Calculator.Models
             char[] array = Exp.ToCharArray();
             List<char> charList = new List<char>();
             charList.AddRange(array);
+            int n = 0;
             for (int i = 1; i < charList.Count; i++)
             {
+
                 switch (charList[i])
                 {
                     case '(':
                         if (charList[i - 1] == '+' || charList[i - 1] == '-' || charList[i - 1] == '*' || charList[i - 1] == '/' || charList[i - 1] == '(')
                             return true;
                         else
+                        {
+                            n++;
                             return false;
+                        }
                     case '*':
                         if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(')
                             return true;
                         else
+                        {
+                            n++;
                             return false;
+                        }
                     case '/':
                         if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(')
                             return true;
                         else
+                        {
+                            n++;
                             return false;
+                        }
                     case '+':
                         if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(')
                             return true;
                         else
+                        {
+                            n++;
                             return false;
+                        }
                     case '-':
                         if (charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/')
                             return true;
                         else
+                        {
+                            n++;
                             return false;
+                        }
                     case '.':
                         if (charList[i - 1] != '.' || charList[i - 1] != '+' || charList[i - 1] != '-' || charList[i - 1] != '*' || charList[i - 1] != '/' || charList[i - 1] != '(' || charList[i - 1] != ')')
                             return true;
                         else
-                            return false;        
+                        {
+                            n++;
+                            return false;
+                        };
                 }
 
             }
-            
+            if (n>0)
+                return false;
+            else
+                return true;
         }
     }
 }
