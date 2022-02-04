@@ -11,122 +11,15 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.InputBindings>
-        
-    </Window.InputBindings>
-    <Window.Resources>
-        <Style TargetType="Button" x:Key="button1">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Height="50" Width="50" Fill="#FF86B9B7" Opacity="0.4">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" Direction="-30" ShadowDepth="5" Opacity="0.2"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"></ContentPresenter>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Command" Value="{Binding InsertCommand}"/>
-            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
-        </Style>
-        <Style TargetType="Button" x:Key="button2">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Height="50" Width="50" Fill="#FFB91B13" Opacity="0.4">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" Direction="-30" ShadowDepth="5" Opacity="0.2"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Command" Value="{Binding InsertCommand}"/>
-            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
-        </Style>
-        <Style TargetType="Button" x:Key="button3">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Height="50" Width="50" Fill="#FFC58484" Opacity="0.4">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" Direction="-30" ShadowDepth="5" Opacity="0.2"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Command" Value="{Binding InsertCommand}"/>
-            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
-        </Style>
-
-        <Style TargetType="Button" x:Key="buttonBlack">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid >
-                            <Path  Fill="#FFC58484" Opacity="0.4" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Path.Data>
-                                    <CombinedGeometry GeometryCombineMode="Exclude">
-                                        <CombinedGeometry.Geometry1>
-                                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="10,10"/>
-                                        </CombinedGeometry.Geometry1>
-                                        <CombinedGeometry.Geometry2>
-                                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="15,10">
-                                            </EllipseGeometry>
-                                        </CombinedGeometry.Geometry2>
-                                    </CombinedGeometry>
-                                </Path.Data>
-                            </Path>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-    
-    
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <LinearGradientBrush.RelativeTransform>
-                    <TransformGroup>
-                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                        <RotateTransform Angle="-120" CenterY="0.5" CenterX="0.5"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </LinearGradientBrush.RelativeTransform>
-                <GradientStop Color="#FFDAB7B7" Offset="0"/>
-                <GradientStop Color="#FFC0F0EB" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        
-        
+    <Grid Style="{StaticResource gridStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="60"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button Style="{StaticResource buttonBlack}"/>
-        <TextBlock Name="InputTextBox" Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5"  Text="{Binding Exp, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
-        <TextBlock Name="ResultTextBox" Grid.Row="2" Background="{x:Null}" Margin="5" Padding="5" Text="{Binding Result, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
-        <UniformGrid Grid.Row="3" Rows="5" Columns="4" >
+        <TextBlock Name="InputTextBox" Grid.Row="0" Background="{x:Null}" Margin="5" Padding="5" FontSize="14" FontFamily="GeoSlab703 MdCn BT"  Text="{Binding Exp, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Name="ResultTextBox" Grid.Row="1" Background="{x:Null}" Margin="5" Padding="5" FontSize="24" FontFamily="GeoSlab703 MdCn BT" Text="{Binding Result, Mode=OneWay}" TextWrapping="WrapWithOverflow"/>
+        <UniformGrid Grid.Row="2" Rows="5" Columns="4" >
             <Button Name="ButtonBracketOpen"  Content="(" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.BracketOpen}"/>
             <Button Name="ButtonBracketClose" Content=")" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.BracketClouse}"/>
             <Button Name="ButtonClean" Content="С" Style="{StaticResource button3}" Command="{Binding InsertOperationCommand}" CommandParameter="{x:Static models:Operations.Clear}" />

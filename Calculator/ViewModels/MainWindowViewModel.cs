@@ -19,6 +19,7 @@ namespace Calculator.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
+
         private readonly CalculatorModel model;
 
         private string exp;
@@ -65,15 +66,7 @@ namespace Calculator.ViewModels
 
         private bool CanAddCommandExecuted(object p)
         {
-            if (model.BracketCheck())
                 return true;
-            else
-                return false;
-
-            if (model.OperationCheck())
-                return true;
-            else
-                return false;
         }
 
         public MainWindowViewModel()
